@@ -3,18 +3,21 @@ Created on 17 de dez de 2017
 
 @author: raul1
 '''
-from pixelcluster import PixelCluster
-from imagemparabase import imgsParaBase
-from classificadores import classicarKNN
+from funcoesexecucao import execucaoPixel
+from multiprocessing import Pool
 if __name__ == '__main__':
-    bYale = imgsParaBase("Bases/yale")
-    subBases = bYale.gerarSubBases(2)
-    bTeste = subBases[0]
-    bTreino = subBases[1]
+    pPixel40 = [("yale","resultados yale", 15, 100, 1, 40),("orl","resultados orl", 40, 100, 1, 40),("umist", "resultados umist", 20,100,1,40)]
+    pPixel26 = [("yale","resultados yale126", 15, 100, 1, 126),("orl","resultados orl126", 40, 100, 1, 126),("umist", "resultados umist126", 20,100,1,126)]
     
-    pC = PixelCluster()
-    pC.fit(bTreino, 10)
-    b1 = pC.run(bTeste)
-    b2 = pC.run(bTreino)
-    print(classicarKNN(b2.atributos,b2.classes,b1.atributos,b1.classes))
+    def executarPoolPixel(args):
+        execucaoPixel(*args)
+        
+    #execucaoPixel("yale","resultados yale", 15, 100, 1, 40)
+    
+    poolPixel40 = Pool(3)
+    poolPixel40.map(executarPoolPixel,pPixel40)
+
+    poolPixel126 = Pool(3)
+    poolPixel126.map(executarPoolPixel,pPixel26)
+    
     pass

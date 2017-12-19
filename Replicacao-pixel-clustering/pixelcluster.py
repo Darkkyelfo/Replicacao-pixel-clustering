@@ -43,6 +43,7 @@ class PixelCluster(object):
         if(tipo=="intensidade"):
             return CriarVetor.intensidade(baseTreino)
     
+
     def _clusterizar(self,tecnica="kmeans"):
         labels = self._escolherTecnicaClusterizacao(tecnica)
         clusters = {}
