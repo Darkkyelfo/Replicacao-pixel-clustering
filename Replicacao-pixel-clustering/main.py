@@ -14,7 +14,7 @@ if __name__ == '__main__':
    
     def executarPoolPixel(args):
         execucaoPixel(*args)
-    
+    '''
     poolPixel40 = Pool(3)
     poolPixel40.map(executarPoolPixel,pPixel40)
 
@@ -23,8 +23,8 @@ if __name__ == '__main__':
     
     poolPixel10 = Pool(3)
     poolPixel10.map(executarPoolPixel,pPixel10)
-   
-    executarRegionPatches("orl", "resultadosOrlRegion23",40,100,16,1)
+   '''
+    executarRegionPatches("orl", "resultadosOrlRegion16",40,100,16,1)
     executarRegionPatches("umist", "resultadosUmistRegion23",20,100,23,1)
     
     pass

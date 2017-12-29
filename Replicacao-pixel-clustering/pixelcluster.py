@@ -6,11 +6,18 @@ Created on 15 de dez de 2017
 import numpy as np
 from sklearn.cluster import KMeans
 from base import Base
+import time
+import math
+
 def arredondar(numero):
     if((numero - int(numero))!=0):
         return int(numero+1)
     return int(numero)
 
+def deveIncrementar(numero):
+    if((numero - int(numero))!=0):
+        return 1
+    return 0
 #Classe responsavel por criar o vetor de pixel
 class CriarVetor(object):
     
@@ -27,6 +34,7 @@ class Projetar(object):
         for matrizes in atrsCluster:
             novosAtr.append([])
             for matriz in matrizes:
+                #print("pixels por cluster:%s"%len(matriz))
                 media = np.mean(matriz)
                 novosAtr[-1].append(media)
         return novosAtr
@@ -54,11 +62,10 @@ class TecnicaCluster(object):
             ant = indCluster
             for linha in range(img.shape[0]):
                 cont = 0
-                if(cont2!=u):
-                    indCluster = ant
-                else:
+                if(cont2==u):
                     cont2 = 0
-                    ant = indCluster
+                    ant = indCluster + deveIncrementar(divColunas)
+                indCluster = ant
                 for coluna in range(img.shape[1]):
                     clusters[indCluster].append(img[linha][coluna])
                     cont+=1
@@ -69,7 +76,6 @@ class TecnicaCluster(object):
             imgsClusterizadas.append(clusters)
         return imgsClusterizadas
                     
-        
         
 class IntensityPatches(object):
 
