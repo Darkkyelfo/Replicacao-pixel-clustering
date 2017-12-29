@@ -3,7 +3,7 @@ Created on 24 de nov de 2017
 
 @author: raul
 '''
-from base import Base
+from base import BaseImg as Base
 import cv2
 import glob as g
 from numba import jit
@@ -11,7 +11,7 @@ from numba import jit
 def imgsParaBase(caminho,dirClasse = "class_",qtClasses=15,tipoArq = "png"):
     classes = []
     atributos = []
-    posicoes = []
+    imgsMatriz = []
     for i in range(1,qtClasses+1):
         t = str(i)
         if(len(t)==1):
@@ -22,16 +22,15 @@ def imgsParaBase(caminho,dirClasse = "class_",qtClasses=15,tipoArq = "png"):
             atr,pos = img2Dto1D(caminhoImg)
             classes.append(i-1)
             atributos.append(atr)
-            posicoes.append(pos)
-    return Base(classes,atributos,posicoes)
+            imgsMatriz.append(pos)
+    return Base(classes,atributos,imgsMatriz)
             
 
 
 def img2Dto1D(caminhoImg):
     img = cv2.imread(caminhoImg,0)
-    posi = posicaoPixl(img)
     array1D = img.reshape(img.shape[0]*img.shape[1])
-    return array1D,posi
+    return array1D,img
 
 @jit
 def posicaoPixl(imagem):

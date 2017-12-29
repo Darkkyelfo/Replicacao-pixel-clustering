@@ -9,13 +9,12 @@ from sklearn import preprocessing
 
 class Base(object):
     
-    def __init__(self, classes=[],atributos=[],posicoesPixel=[],nome=""):
+    def __init__(self, classes=[],atributos=[],nome=""):
         self.nome = nome
         self.tiposClasses = []
         self.classesOri = deepcopy(classes)
         self.classes = self.classesOri
         self.atributos = deepcopy(atributos)
-        self.posicoes = deepcopy(posicoesPixel)
         self.qtElementos = len(self.classes)
         self.min_max_scaler = preprocessing.MinMaxScaler()
         self._findTiposClasses()
@@ -79,7 +78,14 @@ class Base(object):
         return bases
 
         
-        
+class BaseImg(Base):   
+    
+    def __init__(self,classes=[],atributos=[],matrizImgs=[],nome=""):
+        super().__init__(classes, atributos, nome)
+        self.matrizImgs = deepcopy(matrizImgs)
+        self.qtPixels = self.matrizImgs[0].shape[0]*self.matrizImgs[0].shape[1]
+        self.linhas = self.matrizImgs[0].shape[0]
+        self.colunas = self.matrizImgs[0].shape[1]
             
         
         
