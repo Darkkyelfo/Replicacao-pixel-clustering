@@ -21,8 +21,8 @@ if __name__ == '__main__':
     poolPixel126 = Pool(3)
     poolPixel126.map(executarPoolPixel,pPixel26)
     
-    poolPixel126 = Pool(3)
-    poolPixel126.map(executarPoolPixel,pPixel10)
+    poolPixel10 = Pool(3)
+    poolPixel10.map(executarPoolPixel,pPixel10)
    
     executarRegionPatches("orl", "resultadosOrlRegion23",40,100,16,1)
     executarRegionPatches("umist", "resultadosUmistRegion23",20,100,23,1)
