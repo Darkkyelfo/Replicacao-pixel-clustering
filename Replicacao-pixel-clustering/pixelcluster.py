@@ -104,7 +104,7 @@ class IntensityPatches(object):
         self._clusterizar(tecnica)
     
     #Separa o valores contidos no vetor de pixel em um array bidimensional
-    #onde cada elemento é o vetor com os atributos.
+    #onde cada elemento ï¿½ o vetor com os atributos.
     def _separarAtrClusters(self,base):
         self.atrsCluster = []
         for atr in base.atributos:
@@ -124,7 +124,7 @@ class IntensityPatches(object):
     def run(self,base):
         self._separarAtrClusters(base)
         self._projetar("media")
-        return Base(base.classes,self.novosAtr,base.posicoes)
+        return Base(base.classes,self.novosAtr)
 
 class RegionPatches(object):
     

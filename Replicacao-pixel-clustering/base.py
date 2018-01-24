@@ -8,7 +8,7 @@ from random import shuffle
 from sklearn import preprocessing
 
 class Base(object):
-    
+
     def __init__(self, classes=[],atributos=[],nome=""):
         self.nome = nome
         self.tiposClasses = []
@@ -18,12 +18,15 @@ class Base(object):
         self.qtElementos = len(self.classes)
         self.min_max_scaler = preprocessing.MinMaxScaler()
         self._findTiposClasses()
-    
+
     def _findTiposClasses(self):
         self.tiposClasses = []
         for e in self.classes:
             if(e not in self.tiposClasses):
                 self.tiposClasses.append(e)
+        self.qtPorClasse = {}
+        for i in self.tiposClasses:
+            self.qtPorClasse[i] = self.classes.count(i)
 
     def getSubBaseClasse(self,indice):
         subClasse = []
@@ -33,7 +36,7 @@ class Base(object):
                 subClasse.append(e)
                 subAtributos.append(self.atributos[i])
         return Base(subClasse,subAtributos)
-    
+
     def toClasseNumericas(self,mapeamento = {}):
         self.classes = []
         if len(mapeamento)==0:
@@ -42,30 +45,30 @@ class Base(object):
         else:
             for i in self.classesOri:
                 self.classes.append(mapeamento[i])
-    
+
     #embaralha os elementos da base
     def embaralharBase(self):
         c = list(zip(self.classes, self.atributos,self.classesOri))
         shuffle(c)
         self.classes,self.atributos,self.classesOri = zip(*c)
-    
+
     def gerarBaseComMenosAtr(self,qtAtributos):
         novosAtr = []
         for i in self.atributos:
             novosAtr.append(i[0:qtAtributos])
         return Base(self.classesOri,novosAtr)
-    
+
     def normalizar(self):
         self.atributosOri = deepcopy(self.atributos)
         self.atributos = self.min_max_scaler.fit_transform(self.atributos)
-    
+
     def desnormalizar(self):
         self.atributos = self.atributosOri
-        
-        
+
+
     def copy(self):
         return Base(self.classes,self.atributos)
-    
+
     def gerarSubBases(self,qtSubBases):
         self.embaralharBase()
         bases = []
@@ -77,19 +80,27 @@ class Base(object):
             div = div + div
         return bases
 
-        
-class BaseImg(Base):   
-    
+    def remover(self,index):
+        self.qtPorClasse[self.classes[index]] = self.qtPorClasse[self.classes[index]] - 1
+        del self.classes[index]
+        del self.atributos[index]
+        self.qtElementos = self.qtElementos-1
+
+class BaseImg(Base):
+
     def __init__(self,classes=[],atributos=[],matrizImgs=[],nome=""):
         super().__init__(classes, atributos, nome)
         self.matrizImgs = deepcopy(matrizImgs)
         self.qtPixels = self.matrizImgs[0].shape[0]*self.matrizImgs[0].shape[1]
         self.linhas = self.matrizImgs[0].shape[0]
         self.colunas = self.matrizImgs[0].shape[1]
-            
-        
-        
 
-                
-        
-        
+    def copy(self):
+        return BaseImg(deepcopy(self.classes),deepcopy(self.atributos),deepcopy(self.matrizImgs),self.nome)
+
+    def remover(self,index):
+        super().remover(index)
+        del self.matrizImgs[index]
+
+
+
